@@ -82,6 +82,7 @@
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useAuth } from "~/composables/useAuth"
+import Cookies from "universal-cookie"
 
 definePageMeta({
   layout: "login",
@@ -98,7 +99,7 @@ const handleSubmit = async () => {
   if (isAuthenticated.value) {
     message.value = "Login successful!"
     // Uncomment the line below if you want to redirect after successful login.
-    // router.push("/")
+    router.push("/")
   } else {
     message.value = "Invalid credentials. Please try again."
   }

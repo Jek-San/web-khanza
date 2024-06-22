@@ -8,9 +8,7 @@ export default defineNuxtConfig({
       apiUrl: "fsfsdf",
     },
   },
-  plugins: [
-    "~/plugins/auth-check.ts", // Register the auth-check plugin
-  ],
+
   app: {
     head: {
       title: "SIMRS Telaga Bunda",

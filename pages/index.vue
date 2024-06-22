@@ -100,10 +100,10 @@ const toDate = ref("")
 const searchQuery = ref("")
 const data = ref([])
 
-definePageMeta({
-  middleware: ["auth"],
-  // or middleware: 'auth'
-})
+// definePageMeta({
+//   middleware: ["auth"],
+//   // or middleware: 'auth'
+// })
 
 const fetchData = async () => {
   const response = await axios.get("http://localhost/api/get_registrasi.php", {
