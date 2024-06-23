@@ -8,10 +8,10 @@ export default defineNuxtRouteMiddleware((to, from) => {
   console.log(user)
   // checkAuth()
 
-  if (user === null && to.path !== "/login") {
+  if (user === undefined && to.path !== "/login") {
     // If not authenticated and trying to access a protected route, redirect to login
     return navigateTo("/login")
-  } else if (user !== null && to.path === "/login") {
+  } else if (user !== undefined && to.path === "/login") {
     return navigateTo("/")
   }
 

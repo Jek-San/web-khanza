@@ -2,6 +2,7 @@
   <div :class="{ dark: darkMode }">
     <div class="min-h-full">
       <div class="grid grid-cols-12 sm:pr-6 lg:max-w-7xl lg:pr-8">
+        <!-- Sidebar (Visible on medium screens and up) -->
         <div
           v-if="isAuthenticated"
           class="bg-dim-100 md:sticky md:top-0 md:h-screen md:col-span-2 xl:col-span-1 md:block hidden"
@@ -15,8 +16,8 @@
               <NuxtLink to="/" class="text-gray-700 dark:text-gray-300"
                 >Home</NuxtLink
               >
-              <NuxtLink to="/about" class="text-gray-700 dark:text-gray-300"
-                >About</NuxtLink
+              <NuxtLink to="/ranap" class="text-gray-700 dark:text-gray-300"
+                >Ranap</NuxtLink
               >
               <NuxtLink to="/services" class="text-gray-700 dark:text-gray-300"
                 >Services</NuxtLink
@@ -31,6 +32,7 @@
           </div>
         </div>
 
+        <!-- Mobile Navigation (Visible on small screens) -->
         <div
           v-if="isAuthenticated"
           class="bg-dim-300 md:hidden block min-w-full col-span-12"
@@ -60,6 +62,7 @@
           </div>
         </div>
 
+        <!-- Main Content Area (Full width on all screens) -->
         <div class="col-span-12 md:col-span-10 xl:col-span-11">
           <!-- Main Content -->
           <div class="p-4">
@@ -76,5 +79,5 @@ import { ref } from "vue"
 import { useAuth } from "~/composables/useAuth"
 
 const darkMode = ref(false)
-const isAuthenticated = useAuth()
+const { isAuthenticated } = useAuth()
 </script>

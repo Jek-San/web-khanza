@@ -14,7 +14,7 @@ export function useAuth() {
   const config = useRuntimeConfig()
 
   const apiUrl = config.public.apiUrl // Ensure apiUrl is correctly accessed from runtime config
-  const isAuthenticated = ref(false)
+  const isAuthenticated = ref(true)
   const user = ref<User | null>(null)
   const cookies = new Cookies()
 
