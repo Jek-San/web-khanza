@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.22",
     "@nuxtjs/dotenv": "^1.4.2",
     "@vueuse/head": "^2.0.0",
     "axios": "^1.7.2",

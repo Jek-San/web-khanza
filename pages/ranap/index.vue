@@ -46,7 +46,7 @@
         v-if="loading"
         class="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white"
       ></span>
-      Fetch Data
+      <i class="fa fa-search" aria-hidden="true"></i>
     </button>
 
     <!-- Pagination controls -->
@@ -74,51 +74,66 @@
       </div>
     </div>
 
-    <!-- Table -->
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-black">
-        <tr>
-          <th
-            v-for="(column, index) in tableColumns"
-            :key="index"
-            scope="col"
-            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
-          >
-            {{ column }}
-          </th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <tr v-for="item in paginatedData" :key="item['No Rawat']">
-          <td
-            v-for="(column, index) in tableColumns"
-            :key="index"
-            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-          >
-            {{ item[column] }}
-          </td>
-        </tr>
-        <!-- Loading Indicator -->
-        <tr v-if="loading">
-          <td
-            :colspan="tableColumns.length"
-            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
-          >
-            <span
-              class="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-gray-500 rounded-full"
-            ></span>
-            Loading...
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Table Container -->
+    <div class="table-container">
+      <!-- Table -->
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-dim-300 sticky-header">
+          <tr>
+            <th
+              v-if="paginatedData.length > 1"
+              class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+            >
+              Detail
+            </th>
+            <th
+              v-for="(column, index) in tableColumns"
+              :key="index"
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+            >
+              {{ column }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr v-for="item in paginatedData" :key="item['No Rawat']">
+            <td>
+              <!-- Pass data to Patient component -->
+              <Patient msg="Patient" :dataPatient="item" />
+            </td>
+            <td
+              v-for="(column, index) in tableColumns"
+              :key="index"
+              class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+            >
+              {{ item[column] }}
+            </td>
+          </tr>
+          <!-- Loading Indicator -->
+          <tr v-if="loading">
+            <td
+              :colspan="tableColumns.length"
+              class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
+            >
+              <span
+                class="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-gray-500 rounded-full"
+              ></span>
+              Loading...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue"
 import axios from "axios"
+import Patient from "./Patient.vue"
 
+// Reactive variables
 const fromDate = ref(new Date().toISOString().slice(0, 10))
 const toDate = ref(new Date().toISOString().slice(0, 10))
 const searchQuery = ref("")
@@ -128,6 +143,7 @@ const perPage = 10 // Adjust as needed
 const loading = ref(false) // Loading state
 const tableColumns = ref([]) // To store table column headers dynamically
 
+// Fetch data from API
 const fetchData = async () => {
   loading.value = true // Start loading
   try {
@@ -151,6 +167,7 @@ const fetchData = async () => {
   }
 }
 
+// Computed properties
 const filteredData = computed(() => {
   // Filter based on searchQuery and date range
   return data.value.filter((item) => {
@@ -177,6 +194,7 @@ const totalPages = computed(() => {
   return Math.ceil(filteredData.value.length / perPage)
 })
 
+// Pagination functions
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
@@ -191,5 +209,15 @@ const nextPage = () => {
 </script>
 
 <style scoped>
-/* Add scoped styles if needed */
+.table-container {
+  overflow-x: auto;
+  max-height: 500px; /* Adjust as needed */
+}
+
+/* Make header sticky */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensure it stays above the table content */
+}
 </style>
